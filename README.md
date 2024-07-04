@@ -1,46 +1,69 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+`npx create-react-app react2024 --template typescript`
 
-## Available Scripts
+# Tạo file editor config và prettier:
 
-In the project directory, you can run:
+`.editorconfig`
 
-### `npm start`
+```
+  # http://editorconfig.org
+  root = true
+  [*]
+  charset = utf-8
+  end_of_line = lf
+  indent_size = 2
+  indent_style = space
+  insert_final_newline = true
+  max_line_length = 120
+  trim_trailing_whitespace = true
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+`.prettierrc`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+{
+  "semi": true,
+  "tabWidth": 2,
+  "printWidth": 120,
+  "singleQuote": false,
+  "trailingComma": "all",
+  "arrowParens": "avoid"
+}
+```
 
-### `npm test`
+# Initial husky
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`npx husky init`
 
-### `npm run build`
+- Thêm ` "lint": "eslint src --ext .tsx,.ts --max-warnings 0"` vào scripts - package.json
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  Hoặc có thể thêm lệnh trên ở bước cài đặt `eslint` để kiểm tra eslint có hoạt động không.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Vào .husky/pre-commit để sửa lệnh bên trong refer tới scripts package.json
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Xóa prepare: husky ở package.json scripts nếu có
 
-### `npm run eject`
+- Bổ sung 1 file .huskyrc.json
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+{
+  "hooks": {
+    "pre-commit": "lint-staged"
+  }
+}
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Initial react-app-rewired & customize-cra
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+`npm install customize-cra react-app-rewired -D`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Tạo file `config-overrides.js` và để hàm `export {}`
 
-## Learn More
+- Sửa các script ở package.json thành
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+"start": "react-app-rewired start",
+"build": "react-app-rewired build",
+"test": "react-app-rewired test",
+```
