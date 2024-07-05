@@ -197,7 +197,7 @@ module.exports = override(
 }
 ```
 
-- **Nếu import = ctrl + space chưa nhận absolute path thì thêm phần cài đặt cho editor**
+- **Nếu import = ctrl + space chưa nhận absolute path thì thêm phần cài đặt cho editor ở file `.vscode/settings.json` hoặc settings của vscode nếu muốn import đó hoạt động cho nhiều dự án...**
 
 ```
 {
