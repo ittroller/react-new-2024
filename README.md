@@ -56,7 +56,7 @@
 }
 ```
 
-# Initial react-app-rewired & customize-cra
+# Initial react-app-rewired & customize-cra [(\*)](#config1)
 
 `npm install customize-cra react-app-rewired -D`
 
@@ -156,4 +156,56 @@ module.exports = {
     },
   },
 };
+```
+
+# Config absolute path import
+
+- Từ các thư viện đã cài ở **<a id="config1">(\*)</a>** thì tiếp đến sẽ config file _config-overrides.js_ :
+
+```
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { override, addWebpackAlias } = require('customize-cra');
+const path = require('path');
+
+module.exports = override(
+  addWebpackAlias({
+    '@src': path.resolve(__dirname, 'src'),
+  })
+);
+```
+
+- Thêm vào eslintrc config ở chỗ settings:
+
+```
+'import/resolver': {
+  node: {
+    paths: ['src']
+  },
+  alias: {
+    map: [['@src', './src']],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
+  }
+}
+```
+
+-- Ở tsconfig.json, bổ sung phần code ở _compilerOptions_
+
+```
+"baseUrl": "./",
+"paths": {
+  "@src/*": ["src/*"]
+}
+```
+
+- **Nếu import = ctrl + space chưa nhận absolute path thì thêm phần cài đặt cho editor**
+
+```
+{
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "path-intellisense.mappings": {
+    "@src": "${workspaceRoot}/src"
+  }
+}
 ```
