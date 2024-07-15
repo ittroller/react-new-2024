@@ -1,18 +1,17 @@
 import './App.css';
-import HomePage from '@src/pages/home';
 import { Provider } from 'react-redux';
-import store, { history } from '@src/stores';
-import { HistoryRouter as Router } from 'redux-first-history/rr6';
-import { Route, Routes } from 'react-router-dom';
+import store from '@src/stores';
+
+import { router } from '@src/routers';
+import { RouterProvider } from 'react-router-dom';
+import { Suspense } from 'react';
 
 function App() {
   return (
     <Provider store={store}>
-      <Router history={history}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-        </Routes>
-      </Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <RouterProvider router={router} />
+      </Suspense>
     </Provider>
   );
 }
